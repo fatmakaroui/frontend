@@ -3,6 +3,8 @@ import { Provider } from 'react-native-paper';
 import App from './src';
 import { theme } from './src/core/theme';
 import AsyncStorage from '@react-native-community/async-storage';
+
+
 const Main = () => {
   const [isloggedin,setLogged] = useState(null)
   const detectLogin= async ()=>{
@@ -18,9 +20,12 @@ const Main = () => {
  },[])
 
 
-  return(<Provider theme={theme}>
+  return(
+   
+  <Provider theme={theme}>
     <App />
   </Provider>
+
 )};
 
 export default Main;

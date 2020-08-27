@@ -7,7 +7,8 @@ import Button from '../components/Button';
 import AsyncStorage from '@react-native-community/async-storage';
 import { baseUrl } from '../shared/baseUrl';
 
-const Dashboard = ({ navigation,props }) => {
+
+const Dashboard = ({ navigation }) => {
   const [email,setEmail] = useState("loading")
   const Boiler = async ()=>{
      const token = await AsyncStorage.getItem("token")
@@ -27,7 +28,7 @@ useEffect(()=>{
   Boiler()
 },[])
 
-  const logout =(props)=>{
+  const logout =()=>{
      AsyncStorage.removeItem("token").then(()=>{
       navigation.navigate('HomeScreen')
      })
@@ -45,6 +46,9 @@ useEffect(()=>{
     <Button mode="outlined" onPress={() => logout()}>
       Logout
     </Button>
+    <Button mode="outlined" onPress={() => navigation.navigate('GestionDesTaches')}>
+          Gestion des Taches
+        </Button>
   </Background>)
 
 };
