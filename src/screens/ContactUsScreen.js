@@ -1,13 +1,39 @@
 import React, { memo,useState,Component} from 'react';
 import Background from '../components/Background';
-import {  StyleSheet,ScrollView,Modal, View, Text,Dimensions} from 'react-native';
+import {  StyleSheet,ScrollView, View, Text,Linking} from 'react-native';
 import MapView from 'react-native-maps';
 import { Card, Button,Input,SocialIcon} from 'react-native-elements';
 import * as MailComposer from 'expo-mail-composer';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Header from '../components/Header';
-class ContactUsScreen extends Component{
-	
+import {AddReclamation} from './AddReclamation';
+
+const popuplist=[
+  {
+    id:1,
+    name:'Task'
+  },
+  {
+    id:2,
+    name:'Message'
+  },
+  {
+    id: 3 ,
+    name:'Note'
+  }
+]
+
+const ContactUsScreen = ({ navigation }) => {
+  let popupRef=React.createRef()
+  
+  const onShowPopup=()=>{
+    popupRef.show()
+  }
+
+  const onClosePopup=()=>{
+    popupRef.close()
+  }
+
    
       sendMail=()=> {
 		MailComposer.composeAsync({
@@ -17,7 +43,7 @@ class ContactUsScreen extends Component{
 		});
     }
     
-render(){
+
   return(
 <Background>
           <ScrollView>
@@ -34,15 +60,15 @@ render(){
             coordinate={{latitude: 35.794291,
             longitude: 10.65}}
             pinColor = {"purple"}
-            title={"Siège social Tunis"}
-            description={"Adresse : Rue des entrepreneurs, Z.I Charguia II, Aéroport, B.P 640, 1080 Tunis Cedex"}
+            title={"Siège Sousse"}
+            description={"Adresse : ZI Sidi Abdelhamid, 4 rue de la physique 4061 Sousse"}
          />
      <MapView.Marker
             coordinate={{latitude: 36.853879,
             longitude: 10.120}}
             pinColor = {"purple"}
-            title={"Sotetel Sousse"}
-            description={"Adresse : ZI Sidi Abdelhamid, 4 rue de la physique 4061 Sousse"}
+            title={"Sotetel social Tunis"}
+            description={"Adresse : Rue des entrepreneurs, Z.I Charguia II, Aéroport, B.P 640, 1080 Tunis Cedex"}
          />
       <MapView.Marker
             coordinate={{latitude: 34.759740,
@@ -108,15 +134,19 @@ render(){
        type="font-awesome" 
        size={80} 
        color={'#512DA8'} 
-       //onPress={() => this.setState({showCommentForm:true})}
+       onPress={onShowPopup}
        />
-      
+      <AddReclamation 
+            title="Demo Popup"
+            ref={(target)=>popupRef=target}
+            onTouchOutside={onClosePopup}
+            data={popuplist}
+      />
         </View>
 </Background>
        
       )
 };
-}
 const styles = StyleSheet.create({
     container: {
         flex: 1,

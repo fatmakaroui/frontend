@@ -24,7 +24,9 @@ const AcceuilScreen = ({ navigation }) => {
   const renderItem = ({item}) => (
     <Card
                     featuredTitle={item.titre}
+          
                     image={require('./pubimages/15986170486816.jpg')}>
+                    
                     <Text
                         style={{margin: 10,color: '#C207D8'}}>
                           {item.date}

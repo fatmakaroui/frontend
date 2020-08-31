@@ -41,6 +41,7 @@ const GestionDesTaches = ({ navigation }) => {
   const renderItem = ({item}) => (
     <Item 
     title={item.titre} 
+   
     />
   );
 
