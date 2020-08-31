@@ -1,28 +1,53 @@
-import React, { memo } from 'react';
+import React, { memo,useState ,useEffect} from 'react';
 import Background from '../components/Background';
 import Logo from '../components/Logo';
 import Header from '../components/Header';
 import Button from '../components/Button';
 import Paragraph from '../components/Paragraph';
+import { Card } from 'react-native-elements';
+import {  ScrollView, FlatList, Text} from 'react-native';
+import { baseUrl } from '../shared/baseUrl';
 
-const AcceuilScreen = ({ navigation }) => (
-  <Background>
-    <Logo />
-    <Header>Bienvenue Acceuil</Header>
+const AcceuilScreen = ({ navigation }) => {
+  const [isLoading, setLoading] = useState(true);
+  const [pubs, setPubs] = useState([]);
 
-    <Paragraph>
-    SOTETEL est un acteur de référence dans le domaine des télécommunications opérant depuis 1981 sur le marché tunisien et à l’étranger.
-    </Paragraph>
-    <Button mode="contained" onPress={() => navigation.navigate('LoginScreen')}>
-      Login
-    </Button>
-    <Button
-      mode="outlined"
-      onPress={() => navigation.navigate('RegisterScreen')}
-    >
-      Sign Up
-    </Button>
-  </Background>
-);
+  useEffect(() => {
+    fetch(baseUrl+"pubs")
+      .then((response) => response.json())
+      .then((json) => setPubs(json))
+      .then(console.log(setPubs))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const renderItem = ({item}) => (
+    <Card
+                    featuredTitle={item.titre}
+                    image={require('./pubimages/15986170486816.jpg')}>
+                    <Text
+                        style={{margin: 10,color: '#C207D8'}}>
+                          {item.date}
+                        </Text>
+                    <Text
+                        style={{margin: 10}}>
+                         
+                        {item.description}</Text>
+                </Card>
+  );
+  
+
+  return(
+      <Background>
+        <ScrollView>
+        <FlatList  
+                data={pubs}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+              />
+        </ScrollView>
+      </Background>
+      )
+};
 
 export default memo(AcceuilScreen);

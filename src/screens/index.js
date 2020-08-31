@@ -6,3 +6,6 @@ export { default as Dashboard } from './Dashboard';
 export { default as GestionDesTaches } from './GestionDesTaches';
 export { default as GestionDesComptes } from './GestionDesComptes';
 export { default as AcceuilScreen } from './AcceuilScreen';
+export { default as AboutScreen } from './AboutScreen';
+export { default as AproposScreen } from './AproposScreen';
+export { default as ContactUsScreen } from './ContactUsScreen';

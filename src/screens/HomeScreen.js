@@ -13,7 +13,7 @@ const HomeScreen = ({ navigation }) => (
     <Paragraph>
     SOTETEL est un acteur de référence dans le domaine des télécommunications opérant depuis 1981 sur le marché tunisien et à l’étranger.
     </Paragraph>
-    <Button mode="contained" onPress={() => navigation.navigate('LoginScreen')}>
+    <Button mode="contained" onPress={() => navigation.navigate('loginNavigator')}>
       Login
     </Button>
     <Button

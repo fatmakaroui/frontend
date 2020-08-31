@@ -14,12 +14,74 @@ import {
   GestionDesTaches,
   GestionDesComptes,
   AcceuilScreen,
+  AboutScreen,
+  AproposScreen,
+  ContactUsScreen
 } from './screens';
 
 const AcceuilNavigator = createStackNavigator(
 	{
 		Acceuil: {
 			screen: AcceuilScreen,
+			navigationOptions: ({ navigation }) => ({
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-in" size={24} color="white" onPress={() => navigation.navigate('HomeNavigator')}/>),
+				headerLeft:(<Icon name="bars" size={24} color="white" onPress={() => navigation.toggleDrawer()} />),
+			}),
+		},
+	},
+
+);
+const AboutNavigator = createStackNavigator(
+	{
+		About : {
+			screen: AboutScreen,
+			navigationOptions: ({ navigation }) => ({
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-in" size={24} color="white" onPress={() => navigation.navigate('HomeNavigator')}/>),
+				headerLeft:(<Icon name="bars" size={24} color="white" onPress={() => navigation.toggleDrawer()} />),
+			}),
+		},
+	},
+
+);
+
+const AproposNavigator = createStackNavigator(
+	{
+		Apropos : {
+			screen: AproposScreen,
+			navigationOptions: ({ navigation }) => ({
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-in" size={24} color="white" onPress={() => navigation.navigate('HomeNavigator')}/>),
+				headerLeft:(<Icon name="bars" size={24} color="white" onPress={() => navigation.toggleDrawer()} />),
+			}),
+		},
+	},
+
+);
+
+const ContactUsNavigator = createStackNavigator(
+	{
+		ContactUs : {
+			screen: ContactUsScreen,
 			navigationOptions: ({ navigation }) => ({
         headerStyle: {
           backgroundColor: '#512DA8',
@@ -62,6 +124,33 @@ const HomeNavigator = createStackNavigator(
 
 );
 
+const loginNavigator = createStackNavigator(
+	{
+		login: {
+			screen: LoginScreen,
+			navigationOptions: ({ navigation }) => ({
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerLeft: (
+          <Icon
+            name="chevron-left"
+            size={24}
+            color='white'
+            onPress={() => navigation.navigate('HomeNavigator')}
+          />
+        ),
+      }),
+		},
+	},
+
+);
+
+
 const CustomDrawerContentComponent = (props) => (
 	<ScrollView>
 		<SafeAreaView style={styles.container} forceInset={{ top: 'always', horizontal: 'never' }}>
@@ -89,6 +178,36 @@ const MainNavigator = createDrawerNavigator(
 				),
 			},
     },
+    Apropos: {
+			screen: AproposNavigator,
+			navigationOptions: {
+				title: 'À propos',
+				drawerLabel: 'À propos',
+				drawerIcon: ({ tintColor, focused }) => (
+					<Icon name="info-circle" type="font-awesome" size={24} color={tintColor} />
+				),
+			},
+    },
+    About: {
+			screen: AboutNavigator,
+			navigationOptions: {
+				title: 'Historique & dates clès',
+				drawerLabel: 'Historique & dates clès',
+				drawerIcon: ({ tintColor, focused }) => (
+					<Icon name="history" type="font-awesome" size={24} color={tintColor} />
+				),
+			},
+	},
+	ContactUs: {
+		screen: ContactUsNavigator,
+		navigationOptions: {
+			title: 'Contact & réclamation',
+			drawerLabel: 'Contact & réclamation',
+			drawerIcon: ({ tintColor, focused }) => (
+				<Icon name="address-card" type="font-awesome" size={24} color={tintColor} />
+			),
+		},
+},
   },
     {
       drawerBackgroundColor: '#D1C4E9',
@@ -107,8 +226,9 @@ const Router = createStackNavigator(
     GestionDesTaches,
     GestionDesComptes,
     AcceuilScreen,
-    MainNavigator,
-    HomeNavigator
+	MainNavigator,
+	HomeNavigator,
+	loginNavigator
   },
   {
     initialRouteName: 'MainNavigator',
