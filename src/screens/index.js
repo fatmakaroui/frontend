@@ -9,3 +9,4 @@ export { default as AcceuilScreen } from './AcceuilScreen';
 export { default as AboutScreen } from './AboutScreen';
 export { default as AproposScreen } from './AproposScreen';
 export { default as ContactUsScreen } from './ContactUsScreen';
+export { default as VerifReclamation } from './VerifReclamation';

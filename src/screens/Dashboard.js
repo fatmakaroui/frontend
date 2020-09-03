@@ -28,27 +28,17 @@ useEffect(()=>{
   Boiler()
 },[])
 
-  const logout =()=>{
-     AsyncStorage.removeItem("token").then(()=>{
-      navigation.navigate('HomeScreen')
-     })
-  }
-
 
 
   return(<Background>
     <Logo />
-    <Header>Let’s start</Header>
-    <Paragraph>
-      Your amazing app starts here. Open you favourite code editor and start
-      editing this project.
-    </Paragraph>
-    <Button mode="outlined" onPress={() => logout()}>
-      Logout
-    </Button>
+   
     <Button mode="outlined" onPress={() => navigation.navigate('GestionDesTaches')}>
           Gestion des Taches
         </Button>
+    <Button mode="outlined" onPress={() => navigation.navigate('VerifRScreen')}>
+          Verifier les réclamations
+       </Button>
   </Background>)
 
 };

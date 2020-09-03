@@ -1,6 +1,6 @@
 import React, { memo,useState,Component} from 'react';
 import Background from '../components/Background';
-import {  StyleSheet,ScrollView, View, Text,Linking} from 'react-native';
+import {  StyleSheet,ScrollView,Linking, View, Text} from 'react-native';
 import MapView from 'react-native-maps';
 import { Card, Button,Input,SocialIcon} from 'react-native-elements';
 import * as MailComposer from 'expo-mail-composer';
@@ -8,20 +8,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Header from '../components/Header';
 import {AddReclamation} from './AddReclamation';
 
-const popuplist=[
-  {
-    id:1,
-    name:'Task'
-  },
-  {
-    id:2,
-    name:'Message'
-  },
-  {
-    id: 3 ,
-    name:'Note'
-  }
-]
+
 
 const ContactUsScreen = ({ navigation }) => {
   let popupRef=React.createRef()
@@ -55,7 +42,8 @@ const ContactUsScreen = ({ navigation }) => {
         longitude: 9.483939,
         latitudeDelta: 6,
         longitudeDelta: 2
-      }}>
+      }}
+     >
            <MapView.Marker
             coordinate={{latitude: 35.794291,
             longitude: 10.65}}
@@ -102,7 +90,7 @@ const ContactUsScreen = ({ navigation }) => {
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 					<SocialIcon type='facebook' onPress={() => Linking.openURL('https://www.facebook.com/SotetelSmartEnabler')} />
 					<SocialIcon type='linkedin' onPress={() => Linking.openURL('https://www.linkedin.com/company/sotetelsmartenabler')} />
-                    <SocialIcon type='youtube' onPress={() => Linking.openURL('https://www.youtube.com/channel/UC2GMMzGUfVj_7G7xFXULG1A')} />
+          <SocialIcon type='youtube' onPress={() => Linking.openURL('https://www.youtube.com/channel/UC2GMMzGUfVj_7G7xFXULG1A')} />
 					</View>
 	   </Card>
       <Header>Nos pôles régionaux </Header>
@@ -140,7 +128,7 @@ const ContactUsScreen = ({ navigation }) => {
             title="Demo Popup"
             ref={(target)=>popupRef=target}
             onTouchOutside={onClosePopup}
-            data={popuplist}
+           
       />
         </View>
 </Background>

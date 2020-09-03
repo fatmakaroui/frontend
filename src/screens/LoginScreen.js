@@ -46,7 +46,7 @@ const LoginScreen = ({ navigation }) => {
     .then(async (data)=>{
       try {
         await AsyncStorage.setItem('token',data.token)
-        navigation.navigate('Dashboard');
+        navigation.navigate('DashboardNavigator');
       } catch (e) {
         console.log("error hai",e)
         setEmail({ ...email, error: "invalid email or password"});

@@ -1,11 +1,7 @@
 import React, { memo , useState,useEffect} from 'react';
 import Background from '../components/Background';
 import Header from '../components/Header';
-import Logo from '../components/Logo';
-import Paragraph from '../components/Paragraph';
-import Button from '../components/Button';
 import BackButton from '../components/BackButton';
-import { DataTable } from 'react-native-paper';
 import { SafeAreaView, StyleSheet,StatusBar, ScrollView, FlatList, Text, ActivityIndicator, View,Dimensions } from 'react-native';
 import { baseUrl } from '../shared/baseUrl';
 import { Icon} from 'react-native-elements';

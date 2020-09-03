@@ -16,8 +16,15 @@ import {
   AcceuilScreen,
   AboutScreen,
   AproposScreen,
-  ContactUsScreen
+  ContactUsScreen,
+  VerifReclamation
 } from './screens';
+
+const logout =()=>{
+	AsyncStorage.removeItem("token").then(()=>{
+	 navigation.navigate('AcceuilNavigator')
+	})
+ }
 
 const AcceuilNavigator = createStackNavigator(
 	{
@@ -38,6 +45,57 @@ const AcceuilNavigator = createStackNavigator(
 	},
 
 );
+
+const DashboardNavigator = createStackNavigator(
+	{
+		Dashboard : {
+			screen: Dashboard,
+			navigationOptions: ({ navigation }) => ({
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() => logout()}/>),
+		
+		}),
+		},
+	},
+
+);
+
+const VerifRScreen = createStackNavigator(
+	{
+		
+		VerifR : {
+			screen: VerifReclamation,
+			navigationOptions: ({ navigation }) => ({
+				title: 'Liste des Réclamations',
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() => logout()}/>),
+		headerLeft: (
+			<Icon
+			  name="chevron-left"
+			  size={24}
+			  color='white'
+			  onPress={() => navigation.navigate('DashboardNavigator')}
+			/> ),	}),
+		
+		},
+	},
+
+);
+
+
+
 const AboutNavigator = createStackNavigator(
 	{
 		About : {
@@ -90,7 +148,7 @@ const ContactUsNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-in" size={24} color="white" onPress={() => navigation.navigate('HomeNavigator')}/>),
+        headerRight:(<Icon name="sign-in" size={24} color="white" onPress={() => navigation.navigate('LoginNavigator')}/>),
 				headerLeft:(<Icon name="bars" size={24} color="white" onPress={() => navigation.toggleDrawer()} />),
 			}),
 		},
@@ -225,10 +283,13 @@ const Router = createStackNavigator(
     Dashboard,
     GestionDesTaches,
     GestionDesComptes,
-    AcceuilScreen,
+	AcceuilScreen,
+	AcceuilNavigator,
 	MainNavigator,
 	HomeNavigator,
-	loginNavigator
+	loginNavigator,
+	DashboardNavigator,
+	VerifRScreen,
   },
   {
     initialRouteName: 'MainNavigator',
