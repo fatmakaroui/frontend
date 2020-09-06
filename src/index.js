@@ -94,6 +94,35 @@ const VerifRScreen = createStackNavigator(
 
 );
 
+const GTachesNavigator = createStackNavigator(
+	{
+		
+		Gtaches : {
+			screen: GestionDesTaches,
+			navigationOptions: ({ navigation }) => ({
+				title: 'Liste des Taches',
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() => logout()}/>),
+		headerLeft: (
+			<Icon
+			  name="chevron-left"
+			  size={24}
+			  color='white'
+			  onPress={() => navigation.navigate('DashboardNavigator')}
+			/> ),	}),
+		
+		},
+	},
+
+);
+
+
 
 
 const AboutNavigator = createStackNavigator(
@@ -148,7 +177,7 @@ const ContactUsNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-in" size={24} color="white" onPress={() => navigation.navigate('LoginNavigator')}/>),
+        headerRight:(<Icon name="sign-in" size={24} color="white" onPress={() => navigation.navigate('HomeNavigator')}/>),
 				headerLeft:(<Icon name="bars" size={24} color="white" onPress={() => navigation.toggleDrawer()} />),
 			}),
 		},
@@ -281,7 +310,7 @@ const Router = createStackNavigator(
     RegisterScreen,
     ForgotPasswordScreen,
     Dashboard,
-    GestionDesTaches,
+    GTachesNavigator,
     GestionDesComptes,
 	AcceuilScreen,
 	AcceuilNavigator,

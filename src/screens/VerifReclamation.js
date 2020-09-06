@@ -1,17 +1,29 @@
 import React, { memo ,useEffect, useState } from 'react';
 import { baseUrl } from '../shared/baseUrl';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { StyleSheet,ScrollView, FlatList, Text, View ,TouchableOpacity } from 'react-native';
-
+import { StyleSheet,ScrollView, FlatList,Alert, Text, View ,TouchableOpacity } from 'react-native';
+import {AfficheRec} from './AfficheRec';
 const VerifReclamation = ({ navigation }) => {
  
   const [isLoading, setLoading] = useState(true);
   const [reclamations, setReclamations] = useState([]);
+ 
   
+
+  let popupRef=React.createRef()
+  
+  const onShowPopup=(item)=>{
+    popupRef.show(item)
+  }
+
+  const onClosePopup=()=>{
+    popupRef.close()
+  }
+
   
 
   useEffect(() => {
-    fetch(baseUrl+"recs")
+    fetch(baseUrl+"recs/rech/non consulté")
       .then((response) => response.json())
       .then((json) => setReclamations(json))
       .then(console.log(setReclamations))
@@ -19,19 +31,38 @@ const VerifReclamation = ({ navigation }) => {
       .finally(() => setLoading(false));
   }, []);
   
+  ListEmpty = () => {
+    return (
+      //View to show when list is empty
+      <View style={styles.MainContainer}>
+        <Text style={{ textAlign: 'center' }}>Pas de réclamations</Text>
+      </View>
+    );
+  };
+  GetItem=(item)=> {
+    popupRef.show(item)
+  }
+ 
 
   
   renderItem = ({ item }) => {
+    
     return (
+      
       <View key={item.id} style={styles.rec}>
-        <Text style={styles.recText}>{item.date}</Text>
+        <Text style={styles.recText} >{item.date}</Text>
         <Text style={styles.recText}>{item.nom}</Text>
         <Text style={styles.recText}>-{item.description}</Text>
         <TouchableOpacity style={styles.recDelete }>
           <Icon name="eye"
             size={24}
-            color='white'/>
-
+            color='white'
+            onPress={this.GetItem.bind(this,item)}/>
+            <AfficheRec 
+            title="Réclamation"
+            ref={(target)=>popupRef=target}
+            onTouchOutside={onClosePopup}
+           />
         </TouchableOpacity>
       </View>
 
@@ -48,7 +79,10 @@ const VerifReclamation = ({ navigation }) => {
             data={reclamations}
             renderItem={renderItem}
             keyExtractor={item => item.id}
-          />
+            ListEmptyComponent={ListEmpty}
+          >
+            
+          </FlatList>
         </ScrollView>
        
       )

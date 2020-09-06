@@ -33,7 +33,7 @@ useEffect(()=>{
   return(<Background>
     <Logo />
    
-    <Button mode="outlined" onPress={() => navigation.navigate('GestionDesTaches')}>
+    <Button mode="outlined" onPress={() => navigation.navigate('GTachesNavigator')}>
           Gestion des Taches
         </Button>
     <Button mode="outlined" onPress={() => navigation.navigate('VerifRScreen')}>

@@ -1,15 +1,22 @@
 import React, { memo , useState,useEffect} from 'react';
-import Background from '../components/Background';
-import Header from '../components/Header';
-import BackButton from '../components/BackButton';
-import { SafeAreaView, StyleSheet,StatusBar, ScrollView, FlatList, Text, ActivityIndicator, View,Dimensions } from 'react-native';
+import {TouchableOpacity,StyleSheet, ScrollView, FlatList, Text, View,Dimensions } from 'react-native';
 import { baseUrl } from '../shared/baseUrl';
-import { Icon} from 'react-native-elements';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {AfficheRec} from './AfficheRec';
 const GestionDesTaches = ({ navigation }) => {
   const [isLoading, setLoading] = useState(true);
   const [taches, setTaches] = useState([]);
 
+
+  let popupRef=React.createRef()
+  
+  const onShowPopup=(item)=>{
+    popupRef.show(item)
+  }
+
+  const onClosePopup=()=>{
+    popupRef.close()
+  }
 
   useEffect(() => {
     fetch(baseUrl+"taches")
@@ -20,44 +27,61 @@ const GestionDesTaches = ({ navigation }) => {
       .finally(() => setLoading(false));
   }, []);
 
-  const Item = ({ title}) => (
-    <View style={styles.View} >
-      <Text style={styles.Text}>{title}</Text>
-      <Icon 
-      raised
-      reverse
-      name="trash"
-      type="font-awesome"
-      color="#FC2542"
-      size={20}
-      />
-    </View>
-  );
+  ListEmpty = () => {
+    return (
+      //View to show when list is empty
+      <View style={styles.MainContainer}>
+        <Text style={{ textAlign: 'center' }}>Pas des taches</Text>
+      </View>
+    );
+  };
+  GetItem=(item)=> {
+    popupRef.show(item)
+  }
+ 
+
   
-  const renderItem = ({item}) => (
-    <Item 
-    title={item.titre} 
-   
-    />
-  );
+  renderItem = ({ item }) => {
+    
+    return (
+      
+      <View key={item.id} style={styles.rec}>
+        <Text style={styles.recText} >{item.date}</Text>
+        <Text style={styles.recText}>{item.nom}</Text>
+        <Text style={styles.recText}>-{item.description}</Text>
+        <TouchableOpacity style={styles.recDelete }>
+          <Icon name="eye"
+            size={24}
+            color='white'
+            onPress={this.GetItem.bind(this,item)}/>
+            <AfficheRec 
+            title="Taches"
+            ref={(target)=>popupRef=target}
+            onTouchOutside={onClosePopup}
+           />
+        </TouchableOpacity>
+      </View>
+
+    )
+  }
+
 
 
     return(
-    
-    
-    <Background>
-       <BackButton goBack={() => navigation.navigate('Dashboard')} />
-       
-        <SafeAreaView style={styles.container}>
-        <Header>Liste des taches</Header>
-          <FlatList  
+
+        <ScrollView style={styles.scrollContainer}>
+      
+          <FlatList
             data={taches}
             renderItem={renderItem}
             keyExtractor={item => item.id}
-          />
-        </SafeAreaView>
-     
-      </Background>)
+            ListEmptyComponent={ListEmpty}
+          >
+            
+          </FlatList>
+        </ScrollView>
+       
+      )
     
 
 };
@@ -65,22 +89,36 @@ const GestionDesTaches = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
+    width: '100%',
   },
-  View: {
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor:'#F0E5F7',
-    width:Dimensions.get('window').width
+  scrollContainer: {
+    flex: 1,
+    marginBottom: 100,
   },
-  Text: {
-    fontSize: 20,
-    color: "black",
-    padding:10
-  },
+  rec: {
+    position: 'relative',
+    padding: 20,
+    paddingRight:100,
+    borderBottomWidth: 2,
+    borderBottomColor: '#ededed',
+},
+recText: {
+    paddingLeft: 20,
+    borderLeftWidth: 10,
+    borderLeftColor: '#cc3399',
+    fontWeight: "bold"
+},
+recDelete: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#009933',
+    padding: 10,
+    top: 10,
+    bottom: 10,
+    right: 10
+}
 });
+
 
 export default memo(GestionDesTaches);    

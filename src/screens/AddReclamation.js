@@ -10,7 +10,7 @@ import {
     localisationValidator,
     descriptionValidator
   } from '../core/utils' ;
-  import { baseUrl } from '../shared/baseUrl';
+import { baseUrl } from '../shared/baseUrl';
 const deviceHeight=Dimensions.get("window").height
 
 
