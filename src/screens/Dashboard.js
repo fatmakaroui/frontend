@@ -42,6 +42,9 @@ useEffect(()=>{
     <Button mode="outlined" onPress={() => navigation.navigate('VerifRScreen')}>
           Verifier les réclamations
        </Button>
+       <Button mode="outlined" onPress={() => navigation.navigate('LocalisationAdminNavigator')} >
+          Localisation
+       </Button>
        <Button mode="outlined" >
           Gestion des publications
        </Button>

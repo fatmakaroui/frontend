@@ -24,7 +24,8 @@ import {
   CompteClientNV,
   DashboardClient,
   GTacheTech,
-  LocalisationTech
+  LocalisationTech,
+  LocalisationAdmin
 } from './screens';
 
 const logout =()=>{
@@ -202,7 +203,7 @@ const LocalisationTechNavigator = createStackNavigator(
 		LocalisationTech : {
 			screen: LocalisationTech,
 			navigationOptions: ({ navigation }) => ({
-				title: 'Liste des Taches',
+				title: 'Localisation',
         headerStyle: {
           backgroundColor: '#512DA8',
         },
@@ -217,6 +218,34 @@ const LocalisationTechNavigator = createStackNavigator(
 			  size={24}
 			  color='white'
 			  onPress={() => navigation.navigate('Dashboard2Navigator')}
+			/> ),	}),
+		
+		},
+	},
+
+);
+
+const LocalisationAdminNavigator = createStackNavigator(
+	{
+		
+		LocalisationAdmin : {
+			screen: LocalisationAdmin,
+			navigationOptions: ({ navigation }) => ({
+				title: 'Localisation',
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+		headerLeft: (
+			<Icon
+			  name="chevron-left"
+			  size={24}
+			  color='white'
+			  onPress={() => navigation.navigate('DashboardNavigator')}
 			/> ),	}),
 		
 		},
@@ -560,7 +589,8 @@ const Router = createStackNavigator(
 	CompteClientNavigator,
 	CompteClientNVNavigator,
 	GTachesTechNavigator,
-	LocalisationTechNavigator
+	LocalisationTechNavigator,
+	LocalisationAdminNavigator
   },
   {
     initialRouteName: 'MainNavigator',

@@ -17,3 +17,4 @@ export { default as CompteClient } from './CompteClient';
 export { default as CompteClientNV } from './CompteClientNV';
 export { default as GTacheTech } from './GTacheTech';
 export { default as LocalisationTech } from './LocalisationTech';
+export { default as LocalisationAdmin } from './LocalisationAdmin';

@@ -55,7 +55,7 @@ const ComptesTech = ({ navigation }) => {
         fetch(baseUrl+"Tech")
           .then((response) => response.json())
           .then((json) => setUsers(json))
-          .then(console.log(setUsers))
+          .then(console.log(users))
           .catch((error) => console.error(error))
           .finally(() => setLoading(false));
       }
