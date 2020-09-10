@@ -1,10 +1,11 @@
-import{Modal,Dimensions,TouchableWithoutFeedback,Button,StyleSheet,View,Text, Alert} from 'react-native'
-import React,{useEffect} from 'react'
+import{Modal,Dimensions,TouchableWithoutFeedback, Picker,Button,StyleSheet,View,Text, Alert} from 'react-native'
+import React,{useState} from 'react'
 import { baseUrl } from '../shared/baseUrl';
-
+import DropDownPicker from 'react-native-dropdown-picker';
 
 const deviceHeight=Dimensions.get("window").height
 var reclamation=([])
+var technicien=([])
 
 const createAlert = () =>
 Alert.alert(
@@ -21,7 +22,9 @@ export class AfficheRec extends React.Component{
         super(props)
         this.state={
             show:false,
-            
+            tech:([]),
+            technicien:[]
+               
         }
     }
 
@@ -45,6 +48,17 @@ export class AfficheRec extends React.Component{
 
     }
 
+
+    getTech=()=>{
+      fetch(baseUrl+"Tech")
+      .then((response) => response.json())
+      .then(data=>this.setState({tech:data}))
+      .catch((error) => console.error(error));
+      
+    }
+
+   
+
     AccRec=()=>{
         
         fetch(baseUrl+"recs/"+reclamation._id,{
@@ -57,7 +71,8 @@ export class AfficheRec extends React.Component{
          })
         })
         .then(res=>res.text())
-        .then(text => console.log(text))
+        .then(text => console.log(text)
+       )
                
         
       }
@@ -73,10 +88,26 @@ export class AfficheRec extends React.Component{
          })
         })
         .then(res=>res.text())
-        .then(text => console.log(text),
-        this.close())
+        .then(text => console.log(text))
                
         
+      }
+      updateTache=()=>{
+        fetch(baseUrl+"taches/"+reclamation._id,{
+          method:"PUT",
+          headers: {
+           'Content-Type': 'application/json'
+         },
+         body:JSON.stringify({
+           "emailTech":this.state.technicien,
+           "etat":"En cours"
+           
+         })
+        })
+        .then(res=>res.text())
+        .then(text => console.log(text),
+               this.close() )
+               
       }
    
    
@@ -97,15 +128,104 @@ export class AfficheRec extends React.Component{
         })
         .then(res=>res.text())
         .then(text => console.log(text),
-               this.close(),
-               this.AccRec() )
+               this.AccRec(),
+               this.close() )
                
         
       }
+
+    renderModel=()=>{
+      const{title}=this.props
+      if(title=="Tache")
+      {
+          return(
+                <View style={styles.modal}>
+                  <Text style={styles.modalTitle}>Tache</Text>  
+                  
+                  <View style={styles.formRow}>
+                  <Text style={styles.modalText} >Technicien: </Text>
+                      <Picker
+                        style={styles.formItem}
+                        selectedValue={this.state.tech}
+                        onValueChange={(itemValue, itemIndex) => this.setState({ technicien: itemValue })}
+                      >
+                       {this.renderItem()}
+                      </Picker>
+                    </View>
+                     
+                    <Text style={styles.modalText} >Nom et prénom :{reclamation.nom}</Text>
+                    <Text style={styles.modalText}>Cin : {reclamation.cin}</Text>
+                    <Text style={styles.modalText}>Email : {reclamation.email}</Text>
+                    <Text style={styles.modalText}>Date : {reclamation.date}</Text>
+                    <Text style={styles.modalText}>Description : {reclamation.description}</Text>
+                    <Text style={styles.modalText}>Localisation : {reclamation.localisation}</Text>
+                    <Text style={styles.modalText}>Etat : {reclamation.etat}</Text>
+                    
+                    <Button onPress={() => this.updateTache()} color="#00b33c" title="Valider" />
+                    <Button onPress={() => this.close()} color="#d9d9d9" title="Annuler" />  
+                       </View>
+            )
+      }
+      else if (title=="Taches") {
+      
+            return(  <View style={styles.modal}>
+                <Text style={styles.modalTitle}>Tache</Text>  
+                
+                  <Text style={styles.modalText} >Nom et prénom :{reclamation.nom}</Text>
+                  <Text style={styles.modalText}>Cin : {reclamation.cin}</Text>
+                  <Text style={styles.modalText}>Email : {reclamation.email}</Text>
+                  <Text style={styles.modalText}>Date : {reclamation.date}</Text>
+                  <Text style={styles.modalText}>Description : {reclamation.description}</Text>
+                  <Text style={styles.modalText}>Localisation : {reclamation.localisation}</Text>
+                  <Text style={styles.modalText}>Etat : {reclamation.etat}</Text>
+                  
+                  <Button  color="#00b33c" title="Accepter" />
+                  <Button  color="#ff3333" title="Réfuser" />  
+                     </View>)
+         
+      }else if (title=="TacheTech"){
+        return(  <View style={styles.modal}>
+          <Text style={styles.modalTitle}>Tache</Text>  
+          
+            <Text style={styles.modalText} >Nom et prénom :{reclamation.nom}</Text>
+            <Text style={styles.modalText}>Cin : {reclamation.cin}</Text>
+            <Text style={styles.modalText}>Email : {reclamation.email}</Text>
+            <Text style={styles.modalText}>Date : {reclamation.date}</Text>
+            <Text style={styles.modalText}>Description : {reclamation.description}</Text>
+            <Text style={styles.modalText}>Localisation : {reclamation.localisation}</Text>
+            <Text style={styles.modalText}>Etat : {reclamation.etat}</Text>
+            <Button  color="#ff3333" title="Modifier" />  
+               </View>)
+      }
+      else{
+        return(  <View style={styles.modal}>
+          <Text style={styles.modalTitle}>Réclamation</Text>  
+          
+            <Text style={styles.modalText} >Nom et prénom :{reclamation.nom}</Text>
+            <Text style={styles.modalText}>Cin : {reclamation.cin}</Text>
+            <Text style={styles.modalText}>Email : {reclamation.email}</Text>
+            <Text style={styles.modalText}>Date : {reclamation.date}</Text>
+            <Text style={styles.modalText}>Description : {reclamation.description}</Text>
+            <Text style={styles.modalText}>Localisation : {reclamation.localisation}</Text>
+            <Text style={styles.modalText}>Etat : {reclamation.etat}</Text>
+            
+            <Button onPress={() => this.sendRec()} color="#00b33c" title="Accepter" />
+            <Button onPress={() => this.RefRec()} color="#ff3333" title="Réfuser" />  
+               </View>)
+      }
+    }
+
+     
+    renderItem = () =>{
+        this.getTech()
+        return( this.state.tech.map( (item) => { 
+              return( <Picker.Item label={item.prenom+' '+item.nom} key={item._id} value={item.email}  />)} ));
+    }
+   
     
     render() {
         let{show}=this.state
-        const {onTouchOutside,title}=this.props
+        const {onTouchOutside}=this.props
 
         return(
             <Modal
@@ -115,26 +235,13 @@ export class AfficheRec extends React.Component{
             onRequestClose={this.close}
             style={styles.modal}>
                 <View style={{
-                    flex:1,
-                    backgroundColor:'#000000AA',
-                    justifyContent:'flex-end'}}
-                    >
-                        {this.renderOutsideTouchable(onTouchOutside)}
-                        <View style={styles.modal}
-
-                        >
-                            <Text style={styles.modalTitle}>{title}</Text>   
-                            <Text style={styles.modalText} >Nom et prénom :{reclamation.nom}</Text>
-                            <Text style={styles.modalText}>Cin : {reclamation.cin}</Text>
-                            <Text style={styles.modalText}>Email : {reclamation.email}</Text>
-                            <Text style={styles.modalText}>Date : {reclamation.date}</Text>
-                            <Text style={styles.modalText}>Description : {reclamation.description}</Text>
-                            <Text style={styles.modalText}>Localisation : {reclamation.localisation}</Text>
-						<Button onPress={() => this.sendRec()} color="#009933" title="Accepter" />
-						<Button onPress={() => this.RefRec()} color="red" title="Réfuser" />  
-                        </View>
-                    </View>
-
+          flex:1,
+          backgroundColor:'#000000AA',
+          justifyContent:'flex-end'}}
+          >
+              {this.renderOutsideTouchable(onTouchOutside)}
+                {this.renderModel()}
+</View>
             </Modal>
         )
     }
@@ -158,5 +265,19 @@ const styles = StyleSheet.create({
 	modalText: {
 		fontSize: 18,
 		margin: 10,
+  },
+  formRow: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		flex: 1,
+		flexDirection: 'row',
+		margin: 20,
 	},
+	formLabel: {
+		fontSize: 18,
+		flex: 2,
+	},
+	formItem: {
+		flex: 1,
+	}
 });

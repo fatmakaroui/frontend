@@ -25,7 +25,7 @@ const AcceuilScreen = ({ navigation }) => {
     <Card
                     featuredTitle={item.titre}
           
-                    image={require('./pubimages/15986170486816.jpg')}>
+                    image={require('../assets/4.jpg')}>
                     
                     <Text
                         style={{margin: 10,color: '#C207D8'}}>
@@ -45,7 +45,7 @@ const AcceuilScreen = ({ navigation }) => {
         <FlatList  
                 data={pubs}
                 renderItem={renderItem}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item._id}
               />
         </ScrollView>
       </Background>

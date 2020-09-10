@@ -36,8 +36,14 @@ useEffect(()=>{
     <Button mode="outlined" onPress={() => navigation.navigate('GTachesNavigator')}>
           Gestion des Taches
         </Button>
+    <Button mode="outlined" onPress={() => navigation.navigate('GComptesNavigator')}>
+          Gestion des Comptes
+        </Button>
     <Button mode="outlined" onPress={() => navigation.navigate('VerifRScreen')}>
           Verifier les réclamations
+       </Button>
+       <Button mode="outlined" >
+          Gestion des publications
        </Button>
   </Background>)
 

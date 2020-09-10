@@ -5,7 +5,6 @@ import Logo from '../components/Logo';
 import Header from '../components/Header';
 import Button from '../components/Button';
 import TextInput from '../components/TextInput';
-import BackButton from '../components/BackButton';
 import { theme } from '../core/theme';
 import { emailValidator, passwordValidator } from '../core/utils';
 import { baseUrl } from '../shared/baseUrl';
@@ -15,6 +14,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
+  
 
   const _onLoginPressed = () => {
     const emailError = emailValidator(email.value);
@@ -46,11 +46,21 @@ const LoginScreen = ({ navigation }) => {
     .then(async (data)=>{
       try {
         await AsyncStorage.setItem('token',data.token)
-        navigation.navigate('DashboardNavigator');
+        if (data.type=="Admin"){
+        navigation.navigate('DashboardNavigator');}
+        else if(data.type=="Tech"){
+          navigation.navigate('Dashboard2Navigator');  
+        }
+        else if(data.type=="Vérifier"){
+          navigation.navigate('DashboardClientNavigator');  
+        }
+        else if(data.type=="non vérifier"){
+          Alert('votre compte n\'est pas encore vérifier');
+        }
       } catch (e) {
         console.log("error hai",e)
-        setEmail({ ...email, error: "invalid email or password"});
-        setPassword({ ...password,error: "invalid email or password"});
+        setEmail({ ...email, error:"vérifier email ou mote de passe"});
+        setPassword({ ...password,error:"vérifier email ou mote de passe"});
       }
       
             
@@ -62,7 +72,7 @@ const LoginScreen = ({ navigation }) => {
 
       <Logo />
 
-      <Header>Welcome back.</Header>
+      <Header>Bienvenue</Header>
 
       <TextInput
         label="Email"
@@ -91,18 +101,18 @@ const LoginScreen = ({ navigation }) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('ForgotPasswordScreen')}
         >
-          <Text style={styles.label}>Forgot your password?</Text>
+          <Text style={styles.label}>Mot de passe oublié?</Text>
         </TouchableOpacity>
       </View>
 
       <Button mode="contained" onPress={_onLoginPressed}>
-        Login
+      S'identifier
       </Button>
 
       <View style={styles.row}>
-        <Text style={styles.label}>Don’t have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
-          <Text style={styles.link}>Sign up</Text>
+        <Text style={styles.label}>Vous n’avez pas de compte? </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('RegisterNavigator')}>
+          <Text style={styles.link}>S'inscrire</Text>
         </TouchableOpacity>
       </View>
     </Background>

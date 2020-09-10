@@ -3,27 +3,32 @@ import { createAppContainer, SafeAreaView } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { View, Image, Text ,ScrollView ,StyleSheet} from 'react-native';
-
+import { View, Image,ScrollView ,StyleSheet} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   HomeScreen,
   LoginScreen,
   RegisterScreen,
   ForgotPasswordScreen,
   Dashboard,
+  Dashboard2,
   GestionDesTaches,
   GestionDesComptes,
   AcceuilScreen,
   AboutScreen,
   AproposScreen,
   ContactUsScreen,
-  VerifReclamation
+  VerifReclamation,
+  ComptesTech,
+  CompteClient,
+  CompteClientNV,
+  DashboardClient,
+  GTacheTech,
+  LocalisationTech
 } from './screens';
 
 const logout =()=>{
-	AsyncStorage.removeItem("token").then(()=>{
-	 navigation.navigate('AcceuilNavigator')
-	})
+	AsyncStorage.removeItem("token")
  }
 
 const AcceuilNavigator = createStackNavigator(
@@ -58,7 +63,48 @@ const DashboardNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() => logout()}/>),
+        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+		
+		}),
+		},
+	},
+
+);
+
+const Dashboard2Navigator = createStackNavigator(
+	{
+		Dashboard2 : {
+			screen: Dashboard2,
+			navigationOptions: ({ navigation }) => ({
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+		
+		}),
+		},
+	},
+
+);
+
+const DashboardClientNavigator = createStackNavigator(
+	{
+		DashboardClient : {
+			screen: DashboardClient,
+			navigationOptions: ({ navigation }) => ({
+				title: 'Les Réclamations',
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
 		
 		}),
 		},
@@ -80,7 +126,7 @@ const VerifRScreen = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() => logout()}/>),
+        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
 		headerLeft: (
 			<Icon
 			  name="chevron-left"
@@ -108,7 +154,7 @@ const GTachesNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() => logout()}/>),
+        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
 		headerLeft: (
 			<Icon
 			  name="chevron-left"
@@ -122,7 +168,173 @@ const GTachesNavigator = createStackNavigator(
 
 );
 
+const GTachesTechNavigator = createStackNavigator(
+	{
+		
+		GtacheTech : {
+			screen: GTacheTech,
+			navigationOptions: ({ navigation }) => ({
+				title: 'Liste des Taches',
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+		headerLeft: (
+			<Icon
+			  name="chevron-left"
+			  size={24}
+			  color='white'
+			  onPress={() => navigation.navigate('Dashboard2Navigator')}
+			/> ),	}),
+		
+		},
+	},
 
+);
+
+const LocalisationTechNavigator = createStackNavigator(
+	{
+		
+		LocalisationTech : {
+			screen: LocalisationTech,
+			navigationOptions: ({ navigation }) => ({
+				title: 'Liste des Taches',
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+		headerLeft: (
+			<Icon
+			  name="chevron-left"
+			  size={24}
+			  color='white'
+			  onPress={() => navigation.navigate('Dashboard2Navigator')}
+			/> ),	}),
+		
+		},
+	},
+
+);
+
+const GComptesNavigator = createStackNavigator(
+	{
+		
+		GComptes : {
+			screen: GestionDesComptes,
+			navigationOptions: ({ navigation }) => ({
+				title: 'Gestion des Comptes',
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+		headerLeft: (
+			<Icon
+			  name="chevron-left"
+			  size={24}
+			  color='white'
+			  onPress={() => navigation.navigate('DashboardNavigator')}
+			/> ),	}),
+		
+		},
+	},
+
+);
+
+const CompteTechNavigator = createStackNavigator(
+	{
+		
+		CompteTech : {
+			screen: ComptesTech,
+			navigationOptions: ({ navigation }) => ({
+				title: 'Techniciens',
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+		headerLeft: (
+			<Icon
+			  name="chevron-left"
+			  size={24}
+			  color='white'
+			  onPress={() => navigation.navigate('GComptesNavigator')}
+			/> ),	}),
+		
+		},
+	},
+
+);
+
+const CompteClientNavigator = createStackNavigator(
+	{
+		
+		CompteClient : {
+			screen: CompteClient,
+			navigationOptions: ({ navigation }) => ({
+				title: 'Client',
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+		headerLeft: (
+			<Icon
+			  name="chevron-left"
+			  size={24}
+			  color='white'
+			  onPress={() => navigation.navigate('GComptesNavigator')}
+			/> ),	}),
+		
+		},
+	},
+
+);
+
+const CompteClientNVNavigator = createStackNavigator(
+	{
+		
+		CompteClientNV : {
+			screen: CompteClientNV,
+			navigationOptions: ({ navigation }) => ({
+				title: 'Client',
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+		headerLeft: (
+			<Icon
+			  name="chevron-left"
+			  size={24}
+			  color='white'
+			  onPress={() => navigation.navigate('GComptesNavigator')}
+			/> ),	}),
+		
+		},
+	},
+
+);
 
 
 const AboutNavigator = createStackNavigator(
@@ -237,6 +449,32 @@ const loginNavigator = createStackNavigator(
 
 );
 
+const RegisterNavigator = createStackNavigator(
+	{
+		Register: {
+			screen: RegisterScreen,
+			navigationOptions: ({ navigation }) => ({
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerLeft: (
+          <Icon
+            name="chevron-left"
+            size={24}
+            color='white'
+            onPress={() => navigation.navigate('HomeNavigator')}
+          />
+        ),
+      }),
+		},
+	},
+
+);
+
 
 const CustomDrawerContentComponent = (props) => (
 	<ScrollView>
@@ -305,20 +543,24 @@ const MainNavigator = createDrawerNavigator(
 
 const Router = createStackNavigator(
   {
-    HomeScreen,
-    LoginScreen,
-    RegisterScreen,
+	RegisterNavigator,
     ForgotPasswordScreen,
-    Dashboard,
-    GTachesNavigator,
-    GestionDesComptes,
+	GTachesNavigator,
+	GComptesNavigator,
 	AcceuilScreen,
 	AcceuilNavigator,
 	MainNavigator,
 	HomeNavigator,
 	loginNavigator,
 	DashboardNavigator,
+	Dashboard2Navigator,
+	DashboardClientNavigator,
 	VerifRScreen,
+	CompteTechNavigator,
+	CompteClientNavigator,
+	CompteClientNVNavigator,
+	GTachesTechNavigator,
+	LocalisationTechNavigator
   },
   {
     initialRouteName: 'MainNavigator',

@@ -45,7 +45,7 @@ const GestionDesTaches = ({ navigation }) => {
     
     return (
       
-      <View key={item.id} style={styles.rec}>
+      <View  style={styles.rec}>
         <Text style={styles.recText} >{item.date}</Text>
         <Text style={styles.recText}>{item.nom}</Text>
         <Text style={styles.recText}>-{item.description}</Text>
@@ -55,7 +55,7 @@ const GestionDesTaches = ({ navigation }) => {
             color='white'
             onPress={this.GetItem.bind(this,item)}/>
             <AfficheRec 
-            title="Taches"
+            title="Tache"
             ref={(target)=>popupRef=target}
             onTouchOutside={onClosePopup}
            />
@@ -74,7 +74,7 @@ const GestionDesTaches = ({ navigation }) => {
           <FlatList
             data={taches}
             renderItem={renderItem}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item._id}
             ListEmptyComponent={ListEmpty}
           >
             

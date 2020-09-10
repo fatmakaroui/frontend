@@ -3,17 +3,18 @@ import { baseUrl } from '../shared/baseUrl';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { StyleSheet,ScrollView, FlatList,Alert, Text, View  ,RefreshControl,TouchableOpacity } from 'react-native';
 import {AfficheRec} from './AfficheRec';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const wait = (timeout) => {
   return new Promise(resolve => {
     setTimeout(resolve, timeout);
   });
 }
-const VerifReclamation = ({ navigation }) => {
+const GTacheTech = ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setLoading] = useState(true);
-  const [reclamations, setReclamations] = useState([]);
- 
+  const [taches, setTaches] = useState([]);
+  
   
 
   let popupRef=React.createRef()
@@ -26,15 +27,19 @@ const VerifReclamation = ({ navigation }) => {
     popupRef.close()
   }
 
-  
-
-  useEffect(() => {
-    fetch(baseUrl+"recs/rech/non consulté")
+  const GetTache = async ()=>{
+    const email = await AsyncStorage.getItem("email")
+    console.log(email)
+    fetch(baseUrl+"taches/rechTech/"+email)
       .then((response) => response.json())
-      .then((json) => setReclamations(json))
-      .then(console.log(setReclamations))
+      .then((json) => setTaches(json))
+      .then(console.log(setTaches))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
+  }
+
+  useEffect(() => {
+    GetTache()
   }, []);
 
   const onRefresh = React.useCallback(() => {
@@ -78,7 +83,7 @@ const VerifReclamation = ({ navigation }) => {
             color='white'
             onPress={this.GetItem.bind(this,item)}/>
             <AfficheRec 
-            title="Réclamation"
+            title="TacheTech"
             ref={(target)=>popupRef=target}
             onTouchOutside={onClosePopup}
            />
@@ -98,7 +103,7 @@ const VerifReclamation = ({ navigation }) => {
         }>
       
           <FlatList
-            data={reclamations}
+            data={taches}
             renderItem={renderItem}
             keyExtractor={item => item._id}
             ListEmptyComponent={ListEmpty}
@@ -145,4 +150,4 @@ recDelete: {
     right: 10
 }
 });
-export default memo(VerifReclamation);
+export default memo(GTacheTech);
