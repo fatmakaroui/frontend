@@ -25,6 +25,12 @@ export const nomValidator = nom => {
   return '';
 };
 
+export const commentaireValidator = commentaire => {
+  if (!commentaire || commentaire.length <= 0) return 'il faut saisir une description de problème';
+
+  return '';
+};
+
 export const numeroValidator = numero => {
   if (!numero || numero.length != 8) return 'Le numero doit comporte 8 chiffres.';
 

@@ -1,13 +1,21 @@
 import React, { memo , useState,useEffect} from 'react';
-import {TouchableOpacity,StyleSheet, ScrollView, FlatList, Text, View,Dimensions } from 'react-native';
+import {TouchableOpacity,StyleSheet, ScrollView,RefreshControl ,FlatList, Text, View,Dimensions } from 'react-native';
 import { baseUrl } from '../shared/baseUrl';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {AfficheRec} from './AfficheRec';
+import {AfficheRecAdmin} from './AfficheTacheAdmin';
+import {AddTacheAdmin} from './AddTacheAdmin';
+const wait = (timeout) => {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+}
+
 const GestionDesTaches = ({ navigation }) => {
+  const [refreshing, setRefreshing] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [taches, setTaches] = useState([]);
 
-
+//affichage
   let popupRef=React.createRef()
   
   const onShowPopup=(item)=>{
@@ -18,8 +26,19 @@ const GestionDesTaches = ({ navigation }) => {
     popupRef.close()
   }
 
+  //Ajoute
+  let popupRef1=React.createRef()
+  
+  const onShowPopup1=(item)=>{
+    popupRef1.show(item)
+  }
+
+  const onClosePopup1=()=>{
+    popupRef1.close()
+  }
+
   useEffect(() => {
-    fetch(baseUrl+"taches")
+    fetch(baseUrl+"taches/rechTech/not defined")
       .then((response) => response.json())
       .then((json) => setTaches(json))
       .then(console.log(setTaches))
@@ -39,6 +58,21 @@ const GestionDesTaches = ({ navigation }) => {
     popupRef.show(item)
   }
  
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    Refresh();
+    wait(1000).then(() => setRefreshing(false));
+  }, []);
+
+  Refresh=() => {
+    fetch(baseUrl+"taches/rechTech/not defined")
+      .then((response) => response.json())
+      .then((json) => setTaches(json))
+      .then(console.log(setTaches))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }
+  
 
   
   renderItem = ({ item }) => {
@@ -54,7 +88,7 @@ const GestionDesTaches = ({ navigation }) => {
             size={24}
             color='white'
             onPress={this.GetItem.bind(this,item)}/>
-            <AfficheRec 
+            <AfficheRecAdmin 
             title="Tache"
             ref={(target)=>popupRef=target}
             onTouchOutside={onClosePopup}
@@ -68,8 +102,12 @@ const GestionDesTaches = ({ navigation }) => {
 
 
     return(
-
-        <ScrollView style={styles.scrollContainer}>
+<View style={styles.container}>
+        <ScrollView style={styles.scrollContainer} 
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        >
       
           <FlatList
             data={taches}
@@ -80,7 +118,24 @@ const GestionDesTaches = ({ navigation }) => {
             
           </FlatList>
         </ScrollView>
-       
+        <View style={styles.Icon}>
+            <Icon 
+            raised
+            reverse
+            name="plus-circle" 
+            type="font-awesome" 
+            size={80} 
+            color={'#512DA8'} 
+            onPress={onShowPopup1}
+            />
+            <AddTacheAdmin 
+            title={"add"}
+            ref={(target)=>popupRef1=target}
+            onTouchOutside={onClosePopup1}
+           
+      />
+      </View>
+        </View>
       )
     
 
@@ -117,7 +172,13 @@ recDelete: {
     top: 10,
     bottom: 10,
     right: 10
-}
+},
+Icon: {
+  alignSelf:'flex-end',
+  position: 'absolute',
+  bottom: 10,
+  right: 10
+},
 });
 
 

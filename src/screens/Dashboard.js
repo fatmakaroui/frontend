@@ -43,13 +43,19 @@ useEffect(()=>{
           Verifier les réclamations
        </Button>
        <Button mode="outlined" onPress={() => navigation.navigate('LocalisationAdminNavigator')} >
-          Localisation
+          Localisations des techniciens
        </Button>
        <Button mode="outlined" >
           Gestion des publications
        </Button>
+       <Button mode="outlined" >
+          Les Statistiques
+       </Button>
   </Background>)
 
 };
+
+
+
 
 export default memo(Dashboard);

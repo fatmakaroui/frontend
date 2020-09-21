@@ -32,6 +32,8 @@ const LoginScreen = ({ navigation }) => {
 
 
   sendCred=async (props)=>{
+    const start = new Date();
+    var s = start.getMilliseconds();
     fetch(baseUrl+"signin",{
       method:"POST",
       headers: {
@@ -47,12 +49,19 @@ const LoginScreen = ({ navigation }) => {
       try {
         await AsyncStorage.setItem('token',data.token)
         if (data.type=="Admin"){
-        navigation.navigate('DashboardNavigator');}
+        navigation.navigate('DashboardNavigator');
+        const fin = new Date();
+        var f = fin.getMilliseconds();
+        
+         var  timeTaken= f-s
+          console.log('the fetch get http://localhost:3000/signin take :'+timeTaken+'ms')}
         else if(data.type=="Tech"){
           navigation.navigate('Dashboard2Navigator');  
+
         }
         else if(data.type=="Vérifier"){
           navigation.navigate('DashboardClientNavigator');  
+
         }
         else if(data.type=="non vérifier"){
           Alert('votre compte n\'est pas encore vérifier');

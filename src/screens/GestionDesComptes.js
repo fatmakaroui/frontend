@@ -16,10 +16,10 @@ const GestionDesComptes = ({ navigation }) => {
          Comptes techniciens
         </Button>
     <Button mode="outlined" onPress={() => navigation.navigate('CompteClientNavigator')}>
-          Compte Client
+          Comptes Clients
        </Button>
     <Button mode="outlined" onPress={() => navigation.navigate('CompteClientNVNavigator')}>
-          Client non vérifier
+          Clients non vérifier
        </Button>
   </Background>)
 

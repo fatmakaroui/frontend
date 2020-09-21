@@ -44,8 +44,8 @@ const AcceuilNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-in" size={24} color="white" onPress={() => navigation.navigate('HomeNavigator')}/>),
-				headerLeft:(<Icon name="bars" size={24} color="white" onPress={() => navigation.toggleDrawer()} />),
+        headerRight:(<Icon name="sign-in" size={24} style={{right:10}} color="white" onPress={() => navigation.navigate('HomeNavigator')}/>),
+				headerLeft:(<Icon name="bars" size={24} style={{left:10}} color="white" onPress={() => navigation.toggleDrawer()} />),
 			}),
 		},
 	},
@@ -64,7 +64,7 @@ const DashboardNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+        headerRight:(<Icon name="sign-out" size={24} color="white"  style={{right:10}}  onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
 		
 		}),
 		},
@@ -84,7 +84,7 @@ const Dashboard2Navigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+        headerRight:(<Icon name="sign-out" size={24} color="white"  style={{right:10}}  onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
 		
 		}),
 		},
@@ -105,7 +105,7 @@ const DashboardClientNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+        headerRight:(<Icon name="sign-out" size={24} color="white"  style={{right:10}}  onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
 		
 		}),
 		},
@@ -127,12 +127,13 @@ const VerifRScreen = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+        headerRight:(<Icon name="sign-out" size={24} color="white"  style={{right:10}} onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
 		headerLeft: (
 			<Icon
 			  name="chevron-left"
 			  size={24}
 			  color='white'
+			  style={{left:10}}
 			  onPress={() => navigation.navigate('DashboardNavigator')}
 			/> ),	}),
 		
@@ -155,10 +156,11 @@ const GTachesNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+        headerRight:(<Icon name="sign-out" size={24} color="white"  style={{right:10}} onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
 		headerLeft: (
 			<Icon
 			  name="chevron-left"
+			  style={{left:10}}
 			  size={24}
 			  color='white'
 			  onPress={() => navigation.navigate('DashboardNavigator')}
@@ -183,11 +185,12 @@ const GTachesTechNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+        headerRight:(<Icon name="sign-out" size={24} color="white"  style={{right:10}} onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
 		headerLeft: (
 			<Icon
 			  name="chevron-left"
 			  size={24}
+			  style={{left:10}}
 			  color='white'
 			  onPress={() => navigation.navigate('Dashboard2Navigator')}
 			/> ),	}),
@@ -211,11 +214,12 @@ const LocalisationTechNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+        headerRight:(<Icon name="sign-out" size={24} color="white"  style={{right:10}} onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
 		headerLeft: (
 			<Icon
 			  name="chevron-left"
 			  size={24}
+			  style={{left:10}}
 			  color='white'
 			  onPress={() => navigation.navigate('Dashboard2Navigator')}
 			/> ),	}),
@@ -239,11 +243,12 @@ const LocalisationAdminNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+        headerRight:(<Icon name="sign-out" size={24} color="white"  style={{right:10}} onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
 		headerLeft: (
 			<Icon
 			  name="chevron-left"
 			  size={24}
+			  style={{left:10}}
 			  color='white'
 			  onPress={() => navigation.navigate('DashboardNavigator')}
 			/> ),	}),
@@ -267,12 +272,13 @@ const GComptesNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+        headerRight:(<Icon name="sign-out" size={24} color="white"  style={{right:10}} onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
 		headerLeft: (
 			<Icon
 			  name="chevron-left"
 			  size={24}
 			  color='white'
+			  style={{left:10}}
 			  onPress={() => navigation.navigate('DashboardNavigator')}
 			/> ),	}),
 		
@@ -295,11 +301,12 @@ const CompteTechNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+        headerRight:(<Icon name="sign-out" size={24} color="white"  style={{right:10}} onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
 		headerLeft: (
 			<Icon
 			  name="chevron-left"
 			  size={24}
+			  style={{left:10}}
 			  color='white'
 			  onPress={() => navigation.navigate('GComptesNavigator')}
 			/> ),	}),
@@ -323,11 +330,12 @@ const CompteClientNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+        headerRight:(<Icon name="sign-out" size={24} color="white"  style={{right:10}} onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
 		headerLeft: (
 			<Icon
 			  name="chevron-left"
 			  size={24}
+			  style={{left:10}}
 			  color='white'
 			  onPress={() => navigation.navigate('GComptesNavigator')}
 			/> ),	}),
@@ -351,11 +359,12 @@ const CompteClientNVNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-out" size={24} color="white" onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+        headerRight:(<Icon name="sign-out" size={24} color="white"  style={{right:10}} onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
 		headerLeft: (
 			<Icon
 			  name="chevron-left"
 			  size={24}
+			  style={{left:10}}
 			  color='white'
 			  onPress={() => navigation.navigate('GComptesNavigator')}
 			/> ),	}),
@@ -378,8 +387,8 @@ const AboutNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-in" size={24} color="white" onPress={() => navigation.navigate('HomeNavigator')}/>),
-				headerLeft:(<Icon name="bars" size={24} color="white" onPress={() => navigation.toggleDrawer()} />),
+        headerRight:(<Icon name="sign-in" size={24} color="white"  style={{right:10}} onPress={() => navigation.navigate('HomeNavigator')}/>),
+				headerLeft:(<Icon name="bars" size={24} color="white"  style={{left:10}} onPress={() => navigation.toggleDrawer()} />),
 			}),
 		},
 	},
@@ -398,8 +407,8 @@ const AproposNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-in" size={24} color="white" onPress={() => navigation.navigate('HomeNavigator')}/>),
-				headerLeft:(<Icon name="bars" size={24} color="white" onPress={() => navigation.toggleDrawer()} />),
+        headerRight:(<Icon name="sign-in" size={24} color="white"  style={{right:10}} onPress={() => navigation.navigate('HomeNavigator')}/>),
+				headerLeft:(<Icon name="bars" size={24} color="white"  style={{left:10}} onPress={() => navigation.toggleDrawer()} />),
 			}),
 		},
 	},
@@ -418,8 +427,8 @@ const ContactUsNavigator = createStackNavigator(
           color: '#fff',
         },
         headerTintColor: '#fff',
-        headerRight:(<Icon name="sign-in" size={24} color="white" onPress={() => navigation.navigate('HomeNavigator')}/>),
-				headerLeft:(<Icon name="bars" size={24} color="white" onPress={() => navigation.toggleDrawer()} />),
+        headerRight:(<Icon name="sign-in" size={24} color="white"  style={{right:10}} onPress={() => navigation.navigate('HomeNavigator')}/>),
+				headerLeft:(<Icon name="bars" size={24} color="white"  style={{left:10}} onPress={() => navigation.toggleDrawer()} />),
 			}),
 		},
 	},
@@ -442,7 +451,8 @@ const HomeNavigator = createStackNavigator(
           <Icon
             name="chevron-left"
             size={24}
-            color='white'
+			color='white'
+			style={{left:10}}
             onPress={() => navigation.navigate('MainNavigator')}
           />
         ),
@@ -468,7 +478,8 @@ const loginNavigator = createStackNavigator(
           <Icon
             name="chevron-left"
             size={24}
-            color='white'
+			color='white'
+			style={{left:10}}
             onPress={() => navigation.navigate('HomeNavigator')}
           />
         ),
@@ -493,7 +504,8 @@ const RegisterNavigator = createStackNavigator(
         headerLeft: (
           <Icon
             name="chevron-left"
-            size={24}
+			size={24}
+			style={{left:10}}
             color='white'
             onPress={() => navigation.navigate('HomeNavigator')}
           />

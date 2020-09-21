@@ -1,4 +1,4 @@
-import{Modal,Dimensions,TouchableWithoutFeedback,Button,StyleSheet,View,Text,Image} from 'react-native'
+import{Modal,Dimensions,TouchableWithoutFeedback,Button,Picker,StyleSheet,View,Text,Image} from 'react-native'
 import React ,{Component ,setState} from 'react'
 import { FlatList, ScrollView } from 'react-native-gesture-handler'
 import {  Icon, Input} from 'react-native-elements';
@@ -17,7 +17,7 @@ import { baseUrl } from '../shared/baseUrl';
 const deviceHeight=Dimensions.get("window").height
 
 
-export class AddReclamation extends Component{
+export class AddTacheAdmin extends Component{
 
     
     constructor(props){
@@ -30,8 +30,7 @@ export class AddReclamation extends Component{
             show:false,
             nom:'',
             nomErreur:'',
-            cin: '',
-            cinErreur:'',
+           
             numero: '',
             numeroErreur:'',
             email:'',
@@ -64,16 +63,22 @@ export class AddReclamation extends Component{
         this.setState({show:true,
             nom:'',
             nomErreur:'',
-            cin: '',
-            cinErreur:'',
+            
             numero: '',
             numeroErreur:'',
             email:'',
             emailErreur:'',
             description: '',
             descriptionErreur:'',
+            technicien:[],
            
         data:[]})
+        fetch(baseUrl+"Tech")
+        .then(response => response.json())
+        .then(data => this.setState({data}))
+        .then(console.log(this.state.data))
+        .catch((error) => console.error(error))
+        console.log(this.state.tache)
         
     }
 
@@ -105,10 +110,9 @@ export class AddReclamation extends Component{
              }}
             />)
     }
-    sendRec=()=>{
-        const start = new Date();
-    var s = start.getMilliseconds();
-        fetch(baseUrl+"recs",{
+
+    AddTache=()=>{
+        fetch(baseUrl+"taches",{
           method:"POST",
           headers: {
            'Content-Type': 'application/json'
@@ -116,44 +120,37 @@ export class AddReclamation extends Component{
          body:JSON.stringify({
            "nom":this.state.nom,
            "email":this.state.email,
-           "cin":this.state.cin,
+           "cin":11111111,
            "numero":this.state.numero,
            "description":this.state.description,
            "localisation.latitude":this.state.latitude,
            "localisation.longitude":this.state.longitude,
+           "emailTech":this.state.technicien,
+           "etat":"En cours"
          })
         })
-        .then(res=>{res.json();
-            const fin = new Date();
-            var f = fin.getMilliseconds();
-            
-             var  timeTaken= f-s
-              console.log('the fetch post http://localhost:3000/recs take :'+timeTaken+'ms')})
+        .then(res=>res.json())
         .then( data=>{
             console.log(data)
             this.close();
                 
         });
       }
-    AddRec2=()=>{
-        this.GetUser();
-        this.setState({nom:this.state.data.nom})
-        this.setState({email:this.state.data.email})
-        this.setState({cin:this.state.data.cin})
-    }
+    
+    
     AddRec = () => {
         const nomError = nomValidator(this.state.nom);
         const emailError = emailValidator(this.state.email);
-        const cinError = cinValidator(this.state.cin);
+    
         const numeroError = numeroValidator(this.state.numero);
         const descriptionError = descriptionValidator(this.state.description);
        
-        if (emailError || nomError || cinError|| numeroError|| descriptionError ) {
+        if (emailError || nomError || numeroError|| descriptionError ) {
           this.setState({nomErreur:nomError});
           console.log(this.state.nomErreur)
-          console.log(cinError)
+
           this.setState({emailErreur:emailError});
-          this.setState({cinErreur:cinError});
+         
           this.setState({numeroErreur:numeroError});
           this.setState({descriptionErreur:descriptionError});
           return;
@@ -162,15 +159,39 @@ export class AddReclamation extends Component{
       };
 
 
-      renderModel=()=>{
-        const{title}=this.props
- 
-        if(title=="Réclamation"){
-                    return(
-                    <View style={styles.modal}
+      //list des techniciens
+      renderItem = () =>{
+      
+        return( this.state.data.map( (item) => { 
+              return( <Picker.Item label={item.prenom+' '+item.nom} key={item._id} value={item.email}  />)} ));
+    }
+     
+   
+
+    render() {
+        let{show
+        }=this.state
+       
+        const {onTouchOutside}=this.props
+
+        return(
+            
+            <Modal
+            animationType={'fade'}
+            transparent={true}
+            visible={show}
+            onRequestClose={this.close}>
+                <ScrollView>
+                <View style={{
+                    flex:1,
+                    backgroundColor:'#000000AA',
+                    justifyContent:'flex-end'}}
+                    >
+                        {this.renderOutsideTouchable(onTouchOutside)}
+                        <View style={styles.modal}
 
                         >
-                         <Text style={styles.modalTitle}>Réclamation</Text>   
+                         <Text style={styles.modalTitle}>Tache</Text>   
                          <Input
                             placeholder="Nom & Prénom"
                             leftIcon={<Icon name="user" type="font-awesome" />}
@@ -178,14 +199,6 @@ export class AddReclamation extends Component{
                             errorMessage={this.state.nomErreur}
 						/>
                         
-                        <Input
-							placeholder="Cin"
-							leftIcon={<Icon name="id-card" type="font-awesome" />}
-                            onChangeText={text => this.setState({ cin: text, cinErreur: '' })}
-                            keyboardType="numeric"
-                            maxLength={8}
-                            errorMessage={this.state.cinErreur}
-						/>
                         
                          <Input
 							placeholder="Numéro"
@@ -213,6 +226,14 @@ export class AddReclamation extends Component{
                             onChangeText={text => this.setState({ description: text, descriptionErreur: '' })}
                             errorMessage={this.state.descriptionErreur}
 						/>
+                         <Text style={styles.modalText} >Technicien: </Text>
+                                <Picker
+                                    style={styles.formItem}
+                                    selectedValue={this.state.data}
+                                    onValueChange={(itemValue, itemIndex) => this.setState({ technicien: itemValue })}
+                                >
+                                {this.renderItem()}
+                        </Picker>
                         <Text style={styles.modalText}> Localisation :</Text>
                        
                        <MapView 
@@ -227,78 +248,9 @@ export class AddReclamation extends Component{
                                  <Marker coordinate= {this.state}/>  
                         </MapView>
                         
-						<Button onPress={()=> this.AddRec()} color="#512DA8" title="Envoyer" />
+						<Button onPress={()=> this.AddTache()} color="#512DA8" title="Envoyer" />
 						<Button onPress={() => this.close()} color="#6c757d" title="Annuler" />  
                         </View>
-)
-        }
-        else{
-           
-            return(
-                
-                <View style={styles.modal}
-
-                        >
-                         <Text style={styles.modalTitle}>Réclamation</Text>   
-                        
-						<Input
-							placeholder="Description"
-							leftIcon={<Icon name="exclamation" type="font-awesome" />}
-                            onChangeText={text => this.setState({ description: text, descriptionErreur: '' })}
-                            errorMessage={this.state.descriptionErreur}
-						/>
-                       
-                        <Input
-							placeholder="Numéro"
-							leftIcon={<Icon name="phone-square" type="font-awesome" />}
-                            onChangeText={text => this.setState({ numero: text, numeroErreur: '' })}
-                            keyboardType="numeric"
-                            maxLength={8}
-                            errorMessage={this.state.numeroErreur}
-						/>
-                        
-                        <Text style={styles.modalText}> Localisation :</Text>
-                       
-                       <MapView 
-                        style={styles.mapStyle} 
-                        initialRegion={{
-                        latitude: this.state.latitude,
-                        longitude: this.state.longitude,
-                        latitudeDelta: 1,
-                        longitudeDelta: 2
-                        }}
-                          >
-                                <Marker coordinate= {this.state}/>  
-                        </MapView>
-						<Button onPress={()=> this.AddRec()} color="#512DA8" title="Envoyer" />
-						<Button onPress={() => this.close()} color="#6c757d" title="Annuler" />  
-                        </View>
-            )
-        }
-        }
-   
-
-    render() {
-        let{show
-        }=this.state
-       
-        const {onTouchOutside}=this.props
-
-        return(
-            
-            <Modal
-            animationType={'fade'}
-            transparent={true}
-            visible={show}
-            onRequestClose={this.close}>
-                <ScrollView>
-                <View style={{
-                    flex:1,
-                    backgroundColor:'#000000AA',
-                    justifyContent:'flex-end'}}
-                    >
-                        {this.renderOutsideTouchable(onTouchOutside)}
-                        {this.renderModel()}
                         
                     </View>
                     </ScrollView>

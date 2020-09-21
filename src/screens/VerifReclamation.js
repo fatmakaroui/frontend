@@ -3,6 +3,8 @@ import { baseUrl } from '../shared/baseUrl';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { StyleSheet,ScrollView, FlatList,Alert, Text, View  ,RefreshControl,TouchableOpacity } from 'react-native';
 import {AfficheRec} from './AfficheRec';
+import { Vibration } from 'react-native';
+
 
 const wait = (timeout) => {
   return new Promise(resolve => {
@@ -26,15 +28,25 @@ const VerifReclamation = ({ navigation }) => {
     popupRef.close()
   }
 
+ 
   
 
   useEffect(() => {
+    var start = new Date();
+    var s = start.getMilliseconds();
+    
     fetch(baseUrl+"recs/rech/non consulté")
       .then((response) => response.json())
-      .then((json) => setReclamations(json))
+      .then((json) => {setReclamations(json);
+       console.log("Number of item:"+json.length)})
       .then(console.log(setReclamations))
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
+      var fin = new Date();
+    var f = fin.getMilliseconds();
+    
+     var  timeTaken= f-s
+      console.log('the fetch get http://localhost:3000/recs take :'+timeTaken+'ms')
   }, []);
 
   const onRefresh = React.useCallback(() => {
@@ -56,6 +68,7 @@ const VerifReclamation = ({ navigation }) => {
   }
  
   Refresh=() => {
+   
     fetch(baseUrl+"recs/rech/non consulté")
     .then((response) => response.json())
     .then((json) => setReclamations(json))
@@ -65,7 +78,7 @@ const VerifReclamation = ({ navigation }) => {
   }
   
   renderItem = ({ item }) => {
-    
+   
     return (
       
       <View style={styles.rec}>
@@ -96,7 +109,7 @@ const VerifReclamation = ({ navigation }) => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
-      
+        
           <FlatList
             data={reclamations}
             renderItem={renderItem}

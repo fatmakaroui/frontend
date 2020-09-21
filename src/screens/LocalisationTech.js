@@ -16,8 +16,8 @@ export default class LocalisationTech extends Component {
    constructor(props){
        super(props);
     this.state={
-        latitude:0,
-        longitude : 0,
+        latitude:35.5,
+        longitude : 9.483939,
       erreur:null
     };
 }
@@ -77,8 +77,8 @@ UpdateLoc=async ()=>{
                     <MapView 
                         style={styles.mapStyle} 
                         initialRegion={{
-                        latitude: 35.5,
-                        longitude: 9.483939,
+                        latitude: this.state.latitude,
+                        longitude: this.state.longitude,
                         latitudeDelta: 5,
                         longitudeDelta: 2
                         }}

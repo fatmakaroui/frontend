@@ -125,7 +125,7 @@ const ContactUsScreen = ({ navigation }) => {
        onPress={onShowPopup}
        />
       <AddReclamation 
-            title="Demo Popup"
+            title="Réclamation"
             ref={(target)=>popupRef=target}
             onTouchOutside={onClosePopup}
            

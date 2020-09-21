@@ -17,7 +17,7 @@ export default class LocalisationAdmin extends Component {
        super(props);
     this.state={
        
-      data:[{
+      data:[{'_id':1,
           'localisation':{
               'latitude':35,
               'longitude':10
@@ -27,6 +27,8 @@ export default class LocalisationAdmin extends Component {
       }],
     };
 }
+
+
 componentDidMount(){
    
     fetch(baseUrl+"Tech")
@@ -44,7 +46,7 @@ componentDidMount(){
         <Background>
              
                 <View style={styles.container}>
-                <Header>Localisation des techniciens </Header> 
+                <Header>Localisations des techniciens </Header> 
                 
                     <MapView
                         style={styles.mapStyle} 

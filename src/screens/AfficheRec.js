@@ -1,6 +1,7 @@
 import{Modal,Dimensions,TouchableWithoutFeedback, Picker,Button,StyleSheet,View,Text, Alert} from 'react-native'
 import React,{useState} from 'react'
 import { baseUrl } from '../shared/baseUrl';
+import MapView, {Marker} from 'react-native-maps';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 const deviceHeight=Dimensions.get("window").height
@@ -23,19 +24,44 @@ export class AfficheRec extends React.Component{
         this.state={
             show:false,
             tech:([]),
-            technicien:[]
+            technicien:[],
+            latitude:36.799611,
+            longitude : 10.20,
+             erreur:null,
+            etat:[]
                
         }
     }
 
+
+      onMapLayout = () => {
+        this.setState({ isMapReady: true });
+      }
+
     show=(item)=>{
         reclamation=item
-        this.setState({show:true})
+        this.setState({show:true,
+          latitude:item.localisation.latitude,
+          longitude : item.localisation.longitude,
+          etat:item.etat
+        })
+       
     }
 
     close=()=>{
         this.setState({show:false})
     }
+
+    show1=(item)=>{
+      reclamation=item
+      this.setState({show:true,
+      etat:item.etat})
+      
+  }
+
+  close1=()=>{
+      this.setState({show:false})
+  }
 
     renderOutsideTouchable(onTouch){
          const view=<View style={{flex:1,width:'100%'}}/>
@@ -52,7 +78,7 @@ export class AfficheRec extends React.Component{
     getTech=()=>{
       fetch(baseUrl+"Tech")
       .then((response) => response.json())
-      .then(data=>this.setState({tech:data}))
+      .then(tech=>this.setState({tech}))
       .catch((error) => console.error(error));
       
     }
@@ -67,7 +93,7 @@ export class AfficheRec extends React.Component{
            'Content-Type': 'application/json'
          },
          body:JSON.stringify({
-           "etat":"Consulté",   
+           "etat.type":"Consulté",   
          })
         })
         .then(res=>res.text())
@@ -84,7 +110,7 @@ export class AfficheRec extends React.Component{
            'Content-Type': 'application/json'
          },
          body:JSON.stringify({
-           "etat":"Réfusée",   
+           "etat.type":"Réfusée",   
          })
         })
         .then(res=>res.text())
@@ -100,7 +126,7 @@ export class AfficheRec extends React.Component{
          },
          body:JSON.stringify({
            "emailTech":this.state.technicien,
-           "etat":"En cours"
+           "etat.type":"En cours"
            
          })
         })
@@ -123,7 +149,9 @@ export class AfficheRec extends React.Component{
            "cin":reclamation.cin,
            "numero":reclamation.numero,
            "description":reclamation.description,
-           "localisation":reclamation.localisation,
+           "localisation.latitude":reclamation.localisation.latitude,
+           "localisation.longitude":reclamation.localisation.longitudeDelta,
+           "idRec":reclamation._id
          })
         })
         .then(res=>res.text())
@@ -133,40 +161,47 @@ export class AfficheRec extends React.Component{
                
         
       }
+      QS1=()=>{
+        Alert.alert(
+          'Accepter?',
+          'Voulez vous accepter cette réclamation ?',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => this.close(),
+              style: 'cancel',
+            },
+            {
+              text: 'OK',
+              onPress: () => this.sendRec(),
+            },
+          ],
+          { cancelable: false }
+        );
+      }
+      QS2=()=>{
+        Alert.alert(
+          'Refuser?',
+          'Voulez vous refuser cette réclamation ?',
+          [
+            {
+              text: 'Cancel',
+              onPress: () => this.close(),
+              style: 'cancel',
+            },
+            {
+              text: 'OK',
+              onPress: () => {this.RefRec(),
+              this.close()}
+            },
+          ],
+          { cancelable: false }
+        );
+      }
 
     renderModel=()=>{
       const{title}=this.props
-      if(title=="Tache")
-      {
-          return(
-                <View style={styles.modal}>
-                  <Text style={styles.modalTitle}>Tache</Text>  
-                  
-                  <View style={styles.formRow}>
-                  <Text style={styles.modalText} >Technicien: </Text>
-                      <Picker
-                        style={styles.formItem}
-                        selectedValue={this.state.tech}
-                        onValueChange={(itemValue, itemIndex) => this.setState({ technicien: itemValue })}
-                      >
-                       {this.renderItem()}
-                      </Picker>
-                    </View>
-                     
-                    <Text style={styles.modalText} >Nom et prénom :{reclamation.nom}</Text>
-                    <Text style={styles.modalText}>Cin : {reclamation.cin}</Text>
-                    <Text style={styles.modalText}>Email : {reclamation.email}</Text>
-                    <Text style={styles.modalText}>Date : {reclamation.date}</Text>
-                    <Text style={styles.modalText}>Description : {reclamation.description}</Text>
-                    <Text style={styles.modalText}>Localisation : {reclamation.localisation}</Text>
-                    <Text style={styles.modalText}>Etat : {reclamation.etat}</Text>
-                    
-                    <Button onPress={() => this.updateTache()} color="#00b33c" title="Valider" />
-                    <Button onPress={() => this.close()} color="#d9d9d9" title="Annuler" />  
-                       </View>
-            )
-      }
-      else if (title=="Taches") {
+      if (title=="Taches") {
       
             return(  <View style={styles.modal}>
                 <Text style={styles.modalTitle}>Tache</Text>  
@@ -176,28 +211,27 @@ export class AfficheRec extends React.Component{
                   <Text style={styles.modalText}>Email : {reclamation.email}</Text>
                   <Text style={styles.modalText}>Date : {reclamation.date}</Text>
                   <Text style={styles.modalText}>Description : {reclamation.description}</Text>
-                  <Text style={styles.modalText}>Localisation : {reclamation.localisation}</Text>
-                  <Text style={styles.modalText}>Etat : {reclamation.etat}</Text>
+                  <Text style={styles.modalText}>Etat : </Text>
                   
                   <Button  color="#00b33c" title="Accepter" />
                   <Button  color="#ff3333" title="Réfuser" />  
                      </View>)
          
-      }else if (title=="TacheTech"){
+      }
+      else if (title=="RéclamationC"){
         return(  <View style={styles.modal}>
-          <Text style={styles.modalTitle}>Tache</Text>  
+          <Text style={styles.modalTitle}>Réclamation</Text>  
           
-            <Text style={styles.modalText} >Nom et prénom :{reclamation.nom}</Text>
-            <Text style={styles.modalText}>Cin : {reclamation.cin}</Text>
             <Text style={styles.modalText}>Email : {reclamation.email}</Text>
             <Text style={styles.modalText}>Date : {reclamation.date}</Text>
             <Text style={styles.modalText}>Description : {reclamation.description}</Text>
-            <Text style={styles.modalText}>Localisation : {reclamation.localisation}</Text>
-            <Text style={styles.modalText}>Etat : {reclamation.etat}</Text>
-            <Button  color="#ff3333" title="Modifier" />  
+        <Text style={styles.modalText}>Etat : {this.state.etat.type}</Text>
+            
+           
+            <Button onPress={() => this.close1()} color="#d9d9d9" title="Annuler" />  
                </View>)
       }
-      else{
+      else {
         return(  <View style={styles.modal}>
           <Text style={styles.modalTitle}>Réclamation</Text>  
           
@@ -206,11 +240,10 @@ export class AfficheRec extends React.Component{
             <Text style={styles.modalText}>Email : {reclamation.email}</Text>
             <Text style={styles.modalText}>Date : {reclamation.date}</Text>
             <Text style={styles.modalText}>Description : {reclamation.description}</Text>
-            <Text style={styles.modalText}>Localisation : {reclamation.localisation}</Text>
-            <Text style={styles.modalText}>Etat : {reclamation.etat}</Text>
+            <Text style={styles.modalText}>Etat : {this.state.etat.type}</Text>
             
-            <Button onPress={() => this.sendRec()} color="#00b33c" title="Accepter" />
-            <Button onPress={() => this.RefRec()} color="#ff3333" title="Réfuser" />  
+            <Button onPress={() => this.QS1()} color="#00b33c" title="Accepter" />
+            <Button onPress={() => this.QS2()} color="#ff3333" title="Réfuser" />  
                </View>)
       }
     }
@@ -279,5 +312,11 @@ const styles = StyleSheet.create({
 	},
 	formItem: {
 		flex: 1,
-	}
+  },
+  mapStyle: {
+    flex:1,
+    width: 280,
+    height: 100,
+    left:15
+  },
 });
