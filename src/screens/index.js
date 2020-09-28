@@ -18,3 +18,4 @@ export { default as CompteClientNV } from './CompteClientNV';
 export { default as GTacheTech } from './GTacheTech';
 export { default as LocalisationTech } from './LocalisationTech';
 export { default as LocalisationAdmin } from './LocalisationAdmin';
+export { default as Statistiques } from './Statistiques';

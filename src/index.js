@@ -25,7 +25,8 @@ import {
   DashboardClient,
   GTacheTech,
   LocalisationTech,
-  LocalisationAdmin
+  LocalisationAdmin,
+  Statistiques,
 } from './screens';
 
 const logout =()=>{
@@ -113,6 +114,35 @@ const DashboardClientNavigator = createStackNavigator(
 
 );
 
+const StatiqueNaviagation = createStackNavigator(
+	{
+		
+		Statistiques : {
+			screen: Statistiques,
+			navigationOptions: ({ navigation }) => ({
+				title: 'Statistiques',
+        headerStyle: {
+          backgroundColor: '#512DA8',
+        },
+        headerTitleStyle: {
+          color: '#fff',
+        },
+        headerTintColor: '#fff',
+        headerRight:(<Icon name="sign-out" size={24} color="white"  style={{right:10}} onPress={() =>navigation.navigate('AcceuilNavigator')}/>),
+		headerLeft: (
+			<Icon
+			  name="chevron-left"
+			  size={24}
+			  color='white'
+			  style={{left:10}}
+			  onPress={() => navigation.navigate('DashboardNavigator')}
+			/> ),	}),
+		
+		},
+	},
+
+);
+
 const VerifRScreen = createStackNavigator(
 	{
 		
@@ -141,6 +171,7 @@ const VerifRScreen = createStackNavigator(
 	},
 
 );
+
 
 const GTachesNavigator = createStackNavigator(
 	{
@@ -539,8 +570,9 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				title: 'Acceuil',
 				drawerLabel: 'Acceuil',
-				drawerIcon: ({ tintColor, focused }) => (
-					<Icon name="home" type="font-awesome" size={24} color={tintColor} />
+				inactiveTintColor: '#D1C4E9',
+				drawerIcon: ({  focused }) => (
+					<Icon name="home" type="font-awesome" size={24} color={'#D1C4E9'} />
 				),
 			},
     },
@@ -549,8 +581,10 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				title: 'À propos',
 				drawerLabel: 'À propos',
-				drawerIcon: ({ tintColor, focused }) => (
-					<Icon name="info-circle" type="font-awesome" size={24} color={tintColor} />
+				inactiveTintColor: '#D1C4E9',
+			
+				drawerIcon: ({  focused }) => (
+					<Icon name="info-circle" type="font-awesome" size={24} color={'#D1C4E9'} />
 				),
 			},
     },
@@ -559,8 +593,9 @@ const MainNavigator = createDrawerNavigator(
 			navigationOptions: {
 				title: 'Historique & dates clès',
 				drawerLabel: 'Historique & dates clès',
-				drawerIcon: ({ tintColor, focused }) => (
-					<Icon name="history" type="font-awesome" size={24} color={tintColor} />
+				inactiveTintColor: '#D1C4E9',
+				drawerIcon: ({  focused }) => (
+					<Icon name="history" type="font-awesome" size={24} color={'#D1C4E9'} />
 				),
 			},
 	},
@@ -569,15 +604,20 @@ const MainNavigator = createDrawerNavigator(
 		navigationOptions: {
 			title: 'Contact & réclamation',
 			drawerLabel: 'Contact & réclamation',
-			drawerIcon: ({ tintColor, focused }) => (
-				<Icon name="address-card" type="font-awesome" size={24} color={tintColor} />
+			inactiveTintColor: '#D1C4E9',
+			drawerIcon: ({focused }) => (
+				<Icon name="address-card" type="font-awesome" size={24} color={'#D1C4E9'} />
 			),
 		},
 },
   },
     {
-      drawerBackgroundColor: '#D1C4E9',
-      contentComponent: CustomDrawerContentComponent,
+      drawerBackgroundColor: '#512DA8',
+	  contentComponent: CustomDrawerContentComponent,
+	  contentOptions: {
+		activeTintColor :'#ffffff',
+		 inactiveTintColor :'#D1C4E9',
+	  }
     }
   );
   
@@ -602,7 +642,8 @@ const Router = createStackNavigator(
 	CompteClientNVNavigator,
 	GTachesTechNavigator,
 	LocalisationTechNavigator,
-	LocalisationAdminNavigator
+	LocalisationAdminNavigator,
+	StatiqueNaviagation,
   },
   {
     initialRouteName: 'MainNavigator',
@@ -615,7 +656,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	drawerHeader: {
-		backgroundColor: '#512DA8',
+		backgroundColor: '#D1C4E9',
 		height: 120,
 		alignItems: 'center',
 		justifyContent: 'center',

@@ -48,7 +48,7 @@ useEffect(()=>{
        <Button mode="outlined" >
           Gestion des publications
        </Button>
-       <Button mode="outlined" >
+       <Button mode="outlined" onPress={() => navigation.navigate('StatiqueNaviagation')}>
           Les Statistiques
        </Button>
   </Background>)
